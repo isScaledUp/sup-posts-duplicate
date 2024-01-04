@@ -1,0 +1,15 @@
+{
+    "name": "scaledup/sup-posts-duplicate",
+    "type": "wordpress-plugin",
+    "autoload": {
+        "psr-4": {
+            "SUPPostsDuplicate\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Max",
+            "email": "max.funoff@gmail.com"
+        }
+    ]
+}
