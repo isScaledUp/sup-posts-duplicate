@@ -8,7 +8,7 @@ use SUPPostsDuplicate\abstracts\AbstractEntity;
  * This class is responsible for adding the duplicate post functionality to the admin panel and executing the duplication.
  *
  * @since 0.0.1
- * @uses \DeltaPostsDuplicate\abstracts\AbstractEntity
+ * @uses \SUPPostsDuplicate\abstracts\AbstractEntity
  * @package DeltaPostsDuplicate\admin
  */
 class DuplicatePost extends AbstractEntity
@@ -39,10 +39,10 @@ class DuplicatePost extends AbstractEntity
 		if (current_user_can('edit_posts')) {
 			$args = array(
 				'id' => 'duplicate_post',
-				'title' => __('Duplicate Post', 'delta-posts-duplicate'),
+				'title' => __('Duplicate Post', 'sup-posts-duplicate'),
 				'href' => wp_nonce_url(admin_url('admin.php?action=duplicate_post_as_draft_and_edit&post=' . $post->ID), basename(__FILE__), 'duplicate_nonce'),
 				'meta' => array(
-					'title' => __('Duplicate Post', 'delta-posts-duplicate'),
+					'title' => __('Duplicate Post', 'sup-posts-duplicate'),
 				),
 			);
 			$wp_admin_bar->add_node($args);
@@ -57,15 +57,15 @@ class DuplicatePost extends AbstractEntity
 			<div class="misc-pub-section">
 				<a class="submitduplicate duplication"
 				   href="<?php echo wp_nonce_url('admin.php?action=duplicate_post_as_draft&post=' . $post->ID, basename(__FILE__), 'duplicate_nonce'); ?>"
-				   title="<?php esc_html_e('Duplicate this item', 'delta-posts-duplicate'); ?>"
-				   rel="permalink"><?php esc_html_e('Duplicate', 'delta-posts-duplicate'); ?></a>
+				   title="<?php esc_html_e('Duplicate this item', 'sup-posts-duplicate'); ?>"
+				   rel="permalink"><?php esc_html_e('Duplicate', 'sup-posts-duplicate'); ?></a>
 			</div>
 			<div class="misc-pub-section">
 
 				<a class="submitduplicate duplication"
 				   href="<?php echo wp_nonce_url('admin.php?action=duplicate_post_as_draft_and_edit&post=' . $post->ID . '&edit', basename(__FILE__), 'duplicate_nonce'); ?>"
-				   title="<?php esc_html_e('Duplicate this item and edit it', 'delta-posts-duplicate'); ?>"
-				   rel="permalink"><?php esc_html_e('Duplicate & Edit', 'delta-posts-duplicate'); ?></a>
+				   title="<?php esc_html_e('Duplicate this item and edit it', 'sup-posts-duplicate'); ?>"
+				   rel="permalink"><?php esc_html_e('Duplicate & Edit', 'sup-posts-duplicate'); ?></a>
 			</div>
 
 			<?php
@@ -75,8 +75,8 @@ class DuplicatePost extends AbstractEntity
 	public function add_duplicate($actions, $post)
 	{
 		if (current_user_can('edit_posts')) {
-			$actions['duplicate'] = '<a href="' . wp_nonce_url('admin.php?action=duplicate_post_as_draft&post=' . $post->ID, basename(__FILE__), 'duplicate_nonce') . '" title="' . esc_html__('Duplicate this item', 'delta-posts-duplicate') . '" rel="permalink">' . esc_html__('Duplicate', 'delta-posts-duplicate') . '</a>';
-			$actions['duplicate_and_edit'] = '<a href="' . wp_nonce_url('admin.php?action=duplicate_post_as_draft_and_edit&post=' . $post->ID . '&edit', basename(__FILE__), 'duplicate_nonce') . '" title="' . esc_html__('Duplicate this item and edit it', 'delta-posts-duplicate') . '" rel="permalink">' . esc_html__('Duplicate & Edit', 'delta-posts-duplicate') . '</a>';
+			$actions['duplicate'] = '<a href="' . wp_nonce_url('admin.php?action=duplicate_post_as_draft&post=' . $post->ID, basename(__FILE__), 'duplicate_nonce') . '" title="' . esc_html__('Duplicate this item', 'sup-posts-duplicate') . '" rel="permalink">' . esc_html__('Duplicate', 'sup-posts-duplicate') . '</a>';
+			$actions['duplicate_and_edit'] = '<a href="' . wp_nonce_url('admin.php?action=duplicate_post_as_draft_and_edit&post=' . $post->ID . '&edit', basename(__FILE__), 'duplicate_nonce') . '" title="' . esc_html__('Duplicate this item and edit it', 'sup-posts-duplicate') . '" rel="permalink">' . esc_html__('Duplicate & Edit', 'sup-posts-duplicate') . '</a>';
 		}
 		return $actions;
 	}
@@ -103,11 +103,11 @@ class DuplicatePost extends AbstractEntity
 			'post_author' => $new_post_author,
 			'post_content' => $post->post_content,
 			'post_excerpt' => $post->post_excerpt,
-			'post_name' => $post->post_name . _x('-copy', 'Duplicate Slug Suffix', 'delta-posts-duplicate'),
+			'post_name' => $post->post_name . _x('-copy', 'Duplicate Slug Suffix', 'sup-posts-duplicate'),
 			'post_parent' => $post->post_parent,
 			'post_password' => $post->post_password,
 			'post_status' => 'draft',
-			'post_title' => $post->post_title . ' ' . __('(Copy)', 'delta-posts-duplicate'),
+			'post_title' => $post->post_title . ' ' . __('(Copy)', 'sup-posts-duplicate'),
 			'post_type' => $post->post_type,
 			'to_ping' => $post->to_ping,
 			'menu_order' => $post->menu_order

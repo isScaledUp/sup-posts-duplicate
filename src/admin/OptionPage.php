@@ -15,15 +15,11 @@ class OptionPage extends AbstractEntity
 
 	function add_admin_menu(): void
 	{
-		if (!function_exists('get_plugin_page_hookname')) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		//
 		$parent_plugin_page = menu_page_url('sup-content-management');
 		if (!$parent_plugin_page) {
 			add_menu_page(
-				__('SUP Content Management', 'delta-posts-duplicate'),
-				__('SUP Content Management', 'delta-posts-duplicate'),
+				__('SUP Content Management', 'sup-posts-duplicate'),
+				__('SUP Content Management', 'sup-posts-duplicate'),
 				'manage_options',
 				'sup-content-management',
 				[$this, 'sup_options_page']
@@ -31,10 +27,10 @@ class OptionPage extends AbstractEntity
 		}
 		add_submenu_page(
 			'sup-content-management',
-			__('Duplicate Post Settings', 'delta-posts-duplicate'),
-			__('Duplicate Post Settings', 'delta-posts-duplicate'),
+			__('Duplicate Post Settings', 'sup-posts-duplicate'),
+			__('Duplicate Post Settings', 'sup-posts-duplicate'),
 			'manage_options',
-			'delta_options_page',
+			'sup_options_page',
 			[$this, 'options_page_html']
 		);
 	}
@@ -51,21 +47,21 @@ class OptionPage extends AbstractEntity
 
 	function settings_init(): void
 	{
-		register_setting('pluginPage', 'delta_posts_duplicate_settings');
+		register_setting('pluginPage', 'sup_posts_duplicate_settings');
 
 		add_settings_section(
-			'delta_posts_duplicate_pluginPage_section',
-			__('Your section description', 'delta-posts-duplicate'),
+			'sup_posts_duplicate_pluginPage_section',
+			__('Your section description', 'sup-posts-duplicate'),
 			[$this, 'settings_section_callback'],
 			'pluginPage'
 		);
 
 		add_settings_field(
-			'delta_posts_duplicate_text_field_0',
-			__('Settings field description', 'delta-posts-duplicate'),
+			'sup_posts_duplicate_text_field_0',
+			__('Settings field description', 'sup-posts-duplicate'),
 			[$this, 'text_field_0_render'],
 			'pluginPage',
-			'delta_posts_duplicate_pluginPage_section'
+			'sup_posts_duplicate_pluginPage_section'
 		);
 	}
 
