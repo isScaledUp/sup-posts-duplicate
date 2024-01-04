@@ -6,8 +6,8 @@ Requires at least: 4.5
 Tested up to: 6.4.2
 Requires PHP: 7.4
 Stable tag: 0.1.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: Apache-2.0
+License URI: https://www.apache.org/licenses/LICENSE-2.0.txt
 
 This plugin allows any users that have the capability to edit posts to duplicate posts of any type, including custom post types.
 
