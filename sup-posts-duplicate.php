@@ -3,7 +3,7 @@
  * Plugin Name:     	SUP: Posts Duplicate
  * Plugin URI:      	PLUGIN SITE HERE
  * Plugin Support URI: 	https://google.co.il
- * Description:     	Duplicate any post type with ease.
+ * Description:     	Allows any users that have the capability to edit posts to duplicate posts of any type, including custom post types.
  * Author:          	ScaledUp
  * Author URI:      	UNKNOWN
  * Text Domain:     	sup-posts-duplicate
