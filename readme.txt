@@ -43,17 +43,18 @@ No, only users with the capability to edit that post can duplicate it.
 = Can I duplicate a post of a custom post type? =
 Yes, you can duplicate any post type that is registered with WordPress.
 
-= Can I duplicate a post from a Gutenberg editor? =
-No, you can't duplicate a post from a Gutenberg editor. You can duplicate a post from a classic editor.
-We are working on this feature.
 
 == Screenshots ==
 
 1. The admin bar.
 2. The post edit screen.
 3. The post list screen.
+4. Gutenberg editor.
 
 == Changelog ==
+
+= 0.2.0 =
+* Add Gutenberg support.
 
 = 0.1.0 =
 * Initial test release.

@@ -8,10 +8,10 @@
  * Author URI:      	UNKNOWN
  * Text Domain:     	sup-posts-duplicate
  * Domain Path:     	/languages
- * Version:         	0.1.0
+ * Version:         	0.2.0
  * Requires at least: 	5.0
  * Requires PHP: 		7.4
- * Tested up to: 		5.8
+ * Tested up to: 		6.4.2
  *
  * @package         SUP_Posts_Duplicate
  */
