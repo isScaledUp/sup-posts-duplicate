@@ -7,31 +7,87 @@ use SUPPostsDuplicate\abstracts\AbstractEntity;
 /**
  * This class is responsible for adding the duplicate post functionality to the admin panel and executing the duplication.
  *
- * @since 0.0.1
+ * @since 0.1.0
  * @uses \SUPPostsDuplicate\abstracts\AbstractEntity
  * @package DeltaPostsDuplicate\admin
  */
 class DuplicatePost extends AbstractEntity
 {
-	function register_hooks($loader): void
+	function register_hooks(): void
 	{
 		/**
 		 * Areas where the duplicate link will be added.
 		 */
-		$loader->add_filter('post_row_actions', $this, 'add_duplicate', 10, 2); // Post list table
-		$loader->add_filter('page_row_actions', $this, 'add_duplicate', 10, 2); // Page list table
-		$loader->add_action('post_submitbox_misc_actions', $this, 'add_duplicate_post_button'); // Post edit page
-		$loader->add_action('admin_bar_menu', $this, 'add_duplicate_post_button_to_admin_bar', 100); // Admin bar
+		$this->loader->add_filter('post_row_actions', $this, 'add_duplicate', 10, 2); // Post list table
+		$this->loader->add_filter('page_row_actions', $this, 'add_duplicate', 10, 2); // Page list table
+		$this->loader->add_action('post_submitbox_misc_actions', $this, 'add_duplicate_post_button'); // Post edit page
+		$this->loader->add_action('admin_bar_menu', $this, 'add_duplicate_post_button_to_admin_bar', 100); // Admin bar
+		$this->loader->add_action('init', $this, 'add_duplicate_to_all_bulk', 100); // Add bulk duplicate to all post types
 
 		/**
 		 * The duplicate actions callbacks.
 		 */
-		$loader->add_action('admin_action_duplicate_post_as_draft', $this, 'duplicate_post_as_draft');
-		$loader->add_action('admin_action_duplicate_post_as_draft_and_edit', $this, 'duplicate_post_as_draft_and_edit');
+		$this->loader->add_action('admin_action_duplicate_post_as_draft', $this, 'duplicate_post_as_draft');
+		$this->loader->add_action('admin_action_duplicate_post_as_draft_and_edit', $this, 'duplicate_post_as_draft_and_edit');
 
 	}
 
-	public function add_duplicate_post_button_to_admin_bar($wp_admin_bar)
+	/**
+	 * Add duplicate link to bulk actions of all public post types.
+	 *
+	 * @return void
+	 */
+	public function add_duplicate_to_all_bulk()
+	{
+		$post_types = get_post_types(['public' => true], 'objects');
+		foreach ($post_types as $post_type) {
+			$this->loader->add_filter_now('bulk_actions-edit-' . $post_type->name, $this, 'add_bulk_duplicate');
+			$this->loader->add_filter_now('handle_bulk_actions-edit-' . $post_type->name, $this, 'handle_bulk_duplicate', 10, 3);
+		}
+	}
+
+	/**
+	 * Add duplicate link to bulk actions.
+	 *
+	 * @param $actions array
+	 * @return array
+	 */
+	public function add_bulk_duplicate(array $actions): array
+	{
+		$actions['duplicate'] = __('Duplicate', 'sup-posts-duplicate');
+		return $actions;
+	}
+
+	/**
+	 * Handle bulk duplicate action.
+	 *
+	 * @param $redirect_to string
+	 * @param $doaction string
+	 * @param $post_ids array
+	 * @return string
+	 */
+	public function handle_bulk_duplicate(string $redirect_to, string $doaction, array $post_ids): string
+	{
+		if ($doaction !== 'duplicate') {
+			return $redirect_to;
+		}
+
+		foreach ($post_ids as $post_id) {
+			$this->duplicate_post($post_id);
+		}
+
+		$post_type = get_post_type($post_ids[0]);
+
+		return admin_url("edit.php?post_type=$post_type");
+	}
+
+	/**
+	 * Add duplicate link to admin bar callback.
+	 *
+	 * @param $wp_admin_bar \WP_Admin_Bar
+	 * @return void
+	 */
+	public function add_duplicate_post_button_to_admin_bar(\WP_Admin_Bar $wp_admin_bar)
 	{
 		global $post;
 
@@ -54,6 +110,11 @@ class DuplicatePost extends AbstractEntity
 		}
 	}
 
+	/**
+	 * Add duplicate link to submit box.
+	 *
+	 * @return void
+	 */
 	public function add_duplicate_post_button()
 	{
 		global $post;
@@ -99,7 +160,7 @@ class DuplicatePost extends AbstractEntity
 	 */
 	private function verify_nonce(): bool
 	{
-		return !isset($_GET['duplicate_nonce']) || !wp_verify_nonce($_GET['duplicate_nonce'], basename(__FILE__));
+		return !isset($_GET['duplicate_nonce']) || !wp_verify_nonce($_GET['duplicate_nonce']);
 	}
 
 	/**
@@ -122,7 +183,7 @@ class DuplicatePost extends AbstractEntity
 			'post_author' => $new_post_author,
 			'post_content' => $post->post_content,
 			'post_excerpt' => $post->post_excerpt,
-			'post_name' => $post->post_name . _x('-copy', 'Duplicate Slug Suffix', 'sup-posts-duplicate'),
+			'post_name' => $post->post_name . '-copy',
 			'post_parent' => $post->post_parent,
 			'post_password' => $post->post_password,
 			'post_status' => 'draft',

@@ -33,7 +33,7 @@ abstract class AbstractController
 	 */
 	public final function init()
 	{
-		$this->register_hooks($this->loader);
+		$this->register_hooks();
 		$entities = $this->register_entities();
 		foreach ($entities as $entity) {
 			$instance = new $entity($this->loader);
@@ -63,10 +63,9 @@ abstract class AbstractController
 	/**
 	 * Register all the hooks to be used by the plugin.
 	 *
-	 * @param Loader $loader The loader that will be used to register the hooks.
 	 * @return void
 	 */
-	public function register_hooks(Loader $loader): void
+	public function register_hooks(): void
 	{
 		/**
 		 * This is a placeholder function to be overridden by the child class or not used.

@@ -54,6 +54,20 @@ class Loader
 	}
 
 	/**
+	 * Add a new action immediately.
+	 *
+	 * @param string $hook The name of the WordPress action that is being registered.
+	 * @param object $component A reference to the instance of the object on which the action is defined.
+	 * @param string|callable-string|callable $callback The name of the function definition on the $component.
+	 * @param int $priority Optional. The priority at which the function should be fired. Default is 10.
+	 * @param int $accepted_args Optional. The number of arguments that should be passed to the $callback. Default is 1.
+	 */
+	public function add_action_now(string $hook, object $component, string $callback, int $priority = 10, int $accepted_args = 1): void
+	{
+		add_action($hook, [$component, $callback], $priority, $accepted_args);
+	}
+
+	/**
 	 * Add a new filter to the collection to be registered with WordPress.
 	 *
 	 * @param string $hook The name of the WordPress filter that is being registered.
@@ -65,6 +79,21 @@ class Loader
 	public function add_filter(string $hook, object $component, string $callback, int $priority = 10, int $accepted_args = 1): void
 	{
 		$this->filters = $this->add($this->filters, $hook, $component, $callback, $priority, $accepted_args);
+	}
+
+	/**
+	 * Add a new filter immediately.
+	 *
+	 * @param string $hook The name of the WordPress filter that is being registered.
+	 * @param object $component A reference to the instance of the object on which the filter is defined.
+	 * @param string|callable-string|callable $callback The name of the function definition on the $component.
+	 * @param int $priority Optional. The priority at which the function should be fired. Default is 10.
+	 * @param int $accepted_args Optional. The number of arguments that should be passed to the $callback. Default is 1.
+	 *
+	 */
+	public function add_filter_now(string $hook, object $component, string $callback, int $priority = 10, int $accepted_args = 1): void
+	{
+		add_filter($hook, [$component, $callback], $priority, $accepted_args);
 	}
 
 	/**
@@ -97,12 +126,12 @@ class Loader
 	 */
 	public function run(): void
 	{
-		foreach ($this->filters as $hook) {
-			add_filter($hook['hook'], [$hook['component'], $hook['callback']], $hook['priority'], $hook['accepted_args']);
-		}
-
 		foreach ($this->actions as $hook) {
 			add_action($hook['hook'], [$hook['component'], $hook['callback']], $hook['priority'], $hook['accepted_args']);
+		}
+
+		foreach ($this->filters as $hook) {
+			add_filter($hook['hook'], [$hook['component'], $hook['callback']], $hook['priority'], $hook['accepted_args']);
 		}
 	}
 }

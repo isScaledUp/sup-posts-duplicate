@@ -22,14 +22,13 @@ abstract class AbstractEntity
 
 	public final function init()
 	{
-		$this->register_hooks($this->loader);
+		$this->register_hooks();
 	}
 
 	/**
 	 * Register all the hooks to be used by the plugin.
 	 *
-	 * @param Loader $loader The loader that will be used to register the hooks.
 	 * @return void
 	 */
-	abstract function register_hooks(Loader $loader): void;
+	abstract function register_hooks(): void;
 }

@@ -14,10 +14,10 @@ use SUPPostsDuplicate\abstracts\AbstractEntity;
  */
 class OptionPage extends AbstractEntity
 {
-	function register_hooks($loader): void
+	function register_hooks(): void
 	{
-		$loader->add_action('admin_menu', $this, 'add_admin_menu', 15);
-		$loader->add_action('admin_init', $this, 'settings_init');
+		$this->loader->add_action('admin_menu', $this, 'add_admin_menu', 15);
+		$this->loader->add_action('admin_init', $this, 'settings_init');
 	}
 
 	function add_admin_menu(): void
