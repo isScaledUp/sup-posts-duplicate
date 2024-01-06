@@ -18,7 +18,7 @@ To duplicate a post you can either:
 2. Choose the "Duplicate" option from the admin bar when viewing a post.
 3. Choose multiple posts and bulk duplicate them from the post list page.
 4. Enter the post edit page and click on "Duplicate" in the post submit box **(Both Classic and Gutenberg editors are supported)**.'
-5.
+
 <hr>
 
 ### Features
@@ -37,7 +37,7 @@ To duplicate a post you can either:
 <hr>
 
 ### Reporting bugs
-If you find any bug or issue please report it [here]()
+If you find any bug or issue please report it [here](https://github.com/isScaledUp/sup-posts-duplicate/issues/new).
 
 <hr>
 

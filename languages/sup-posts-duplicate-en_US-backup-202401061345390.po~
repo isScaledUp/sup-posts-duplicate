@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SUP: Posts Duplicate 0.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/sup-posts-duplicate\n"
+"Last-Translator: \n"
+"Language-Team: English (United States)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-01-06T13:42:31+00:00\n"
+"PO-Revision-Date: 2024-01-06 13:44+0000\n"
+"Language: en_US\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: sup-posts-duplicate\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.6.6; wp-6.4.2\n"
+
+#. Plugin Name of the plugin
+msgid "SUP: Posts Duplicate"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://scaledup.co.il"
+msgstr ""
+
+#. Description of the plugin
+msgid "Allows any users that have the capability to edit posts to duplicate posts of any type, including custom post types."
+msgstr ""
+
+#. Author of the plugin
+msgid "ScaledUp"
+msgstr ""
+
+#: src/admin/DuplicatePost.php:121
+#: src/admin/DuplicatePost.php:191
+#: src/admin/DuplicatePost.php:215
+msgid "Duplicate"
+msgstr ""
+
+#: src/admin/DuplicatePost.php:167
+#: src/admin/DuplicatePost.php:170
+#: assets/js/dist/index.js:1
+#: assets/js/src/DuplicateDashboardButton.jsx:56
+msgid "Duplicate Post"
+msgstr ""
+
+#: src/admin/DuplicatePost.php:190
+#: src/admin/DuplicatePost.php:215
+msgid "Duplicate this item"
+msgstr ""
+
+#: src/admin/DuplicatePost.php:197
+#: src/admin/DuplicatePost.php:216
+msgid "Duplicate this item and edit it"
+msgstr ""
+
+#: src/admin/DuplicatePost.php:198
+#: src/admin/DuplicatePost.php:216
+msgid "Duplicate & Edit"
+msgstr ""
+
+#: src/admin/DuplicatePost.php:254
+msgid "(Copy)"
+msgstr ""
+
+#: src/admin/OptionPage.php:28
+#: src/admin/OptionPage.php:29
+msgid "SUP Content Management"
+msgstr ""
+
+#: src/admin/OptionPage.php:37
+#: src/admin/OptionPage.php:38
+msgid "Duplicate Post Settings"
+msgstr ""
+
+#: src/admin/OptionPage.php:61
+msgid "Your section description"
+msgstr ""
+
+#: src/admin/OptionPage.php:68
+msgid "Settings field description"
+msgstr ""
+
+#: assets/js/dist/index.js:1
+#: assets/js/src/DuplicateDashboardButton.jsx:22
+msgid "Error GE-001: Could not get post ID"
+msgstr ""

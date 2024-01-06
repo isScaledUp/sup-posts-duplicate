@@ -19,7 +19,7 @@ export const DuplicateDashboardButton = () => {
 	async function onDuplicateClick() {
 		if (loading) return;
 
-		if (!postId) return alert(__('Error GE-001: Could not get post ID', 'sup-post-duplicate'));
+		if (!postId) return alert(__('Error GE-001: Could not get post ID', 'sup-posts-duplicate'));
 		setLoading(true);
 		// Redirect to the new post
 		const response = await apiFetch({
@@ -53,7 +53,7 @@ export const DuplicateDashboardButton = () => {
 			<button style={buttonStyle}
 					onClick={onDuplicateClick}
 					className='components-button is-link'>
-				{__('Duplicate Post', 'sup-post-duplicate')}
+				{__('Duplicate Post', 'sup-posts-duplicate')}
 				{loading && <Spinner/>}
 			</button>
 		</PluginPostStatusInfo>

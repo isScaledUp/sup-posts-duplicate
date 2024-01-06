@@ -54,22 +54,7 @@ class OptionPage extends AbstractEntity
 
 	function settings_init(): void
 	{
-		register_setting('pluginPage', 'sup_posts_duplicate_settings');
 
-		add_settings_section(
-			'sup_posts_duplicate_pluginPage_section',
-			__('Your section description', 'sup-posts-duplicate'),
-			[$this, 'settings_section_callback'],
-			'pluginPage'
-		);
-
-		add_settings_field(
-			'sup_posts_duplicate_text_field_0',
-			__('Settings field description', 'sup-posts-duplicate'),
-			[$this, 'text_field_0_render'],
-			'pluginPage',
-			'sup_posts_duplicate_pluginPage_section'
-		);
 	}
 
 }
