@@ -10,6 +10,7 @@ class Plugin extends AbstractBasePlugin
 	public function register_components(): array
 	{
 		return [
+			Localization::class,
 			AdminController::class,
 		];
 	}
