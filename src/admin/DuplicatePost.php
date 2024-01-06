@@ -30,6 +30,67 @@ class DuplicatePost extends AbstractEntity
 		$this->loader->add_action('admin_action_duplicate_post_as_draft', $this, 'duplicate_post_as_draft');
 		$this->loader->add_action('admin_action_duplicate_post_as_draft_and_edit', $this, 'duplicate_post_as_draft_and_edit');
 
+		/**
+		 * Gutenberg support
+		 */
+		$this->loader->add_action('enqueue_block_editor_assets', $this, 'add_gutenberg_duplicate_assets');
+		$this->loader->add_action('rest_api_init', $this, 'add_gutenberg_duplicate_route');
+
+	}
+
+	/**
+	 * Add RestAPI duplicate route.
+	 *
+	 * @return void
+	 */
+	function add_gutenberg_duplicate_route()
+	{
+		register_rest_route('sup-posts-duplicate/v1', 'duplicate', [
+			'methods' => 'POST',
+			'callback' => [$this, 'handle_gutenberg_duplicate_callback'],
+			'args' => [
+				'post_id' => [
+					'required' => true,
+					'type' => 'integer',
+				],
+			],
+			'permission_callback' => function () {
+				return current_user_can('edit_posts');
+			},
+		]);
+	}
+
+	/**
+	 * Handle duplicate RestAPI request.
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return \WP_REST_Response
+	 */
+	function handle_gutenberg_duplicate_callback(\WP_REST_Request $request): \WP_REST_Response
+	{
+		$post_id = $request->get_param('post_id');
+		$new_post_id = $this->duplicate_post($post_id);
+		return new \WP_REST_Response([
+			'success' => true,
+			'post_id' => $new_post_id,
+		], 200, [
+			'X-Location' => admin_url("post.php?post=$new_post_id&action=edit"),
+		]);
+	}
+
+	/**
+	 * Add Gutenberg duplicate assets.
+	 */
+	function add_gutenberg_duplicate_assets()
+	{
+		$asset_file = include(__SPD_PATH__ . 'assets/js/dist/index.asset.php');
+
+		wp_enqueue_script(
+			'sup-posts-duplicate-gutenberg',
+			__SPD_URL__ . 'assets/js/dist/index.js',
+			$asset_file['dependencies'],
+			$asset_file['version']
+		);
 	}
 
 	/**
@@ -41,6 +102,7 @@ class DuplicatePost extends AbstractEntity
 	{
 		$post_types = get_post_types(['public' => true], 'objects');
 		foreach ($post_types as $post_type) {
+			// Since we are dependent on WordPress init hook, we need to add the filters when the action is called, not before.
 			$this->loader->add_filter_now('bulk_actions-edit-' . $post_type->name, $this, 'add_bulk_duplicate');
 			$this->loader->add_filter_now('handle_bulk_actions-edit-' . $post_type->name, $this, 'handle_bulk_duplicate', 10, 3);
 		}

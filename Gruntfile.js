@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 
 		addtextdomain: {
 			options: {
-				textdomain: 'delta-posts-duplicate',
+				textdomain: 'sup-posts-duplicate',
 			},
 			update_all_domains: {
 				options: {
