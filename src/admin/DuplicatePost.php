@@ -3,6 +3,7 @@
 namespace SUPPostsDuplicate\admin;
 
 use SUPPostsDuplicate\abstracts\AbstractEntity;
+use SUPPostsDuplicate\Localization;
 
 /**
  * This class is responsible for adding the duplicate post functionality to the admin panel and executing the duplication.
@@ -91,6 +92,7 @@ class DuplicatePost extends AbstractEntity
 			$asset_file['dependencies'],
 			$asset_file['version']
 		);
+		Localization::set_script_translation('sup-posts-duplicate-gutenberg');
 	}
 
 	/**

@@ -1,6 +1,6 @@
 import {__} from '@wordpress/i18n';
-import {PluginMoreMenuItem} from '@wordpress/edit-post';
-import {copy} from '@wordpress/icons';
+import {PluginMoreMenuItem, PluginPostStatusInfo} from '@wordpress/edit-post';
+import {copy as Copy} from '@wordpress/icons';
 import {useEffect, useState} from "react";
 import apiFetch from '@wordpress/api-fetch';
 import {Spinner} from '@wordpress/components';
@@ -16,9 +16,7 @@ export const DuplicateDashboardButton = () => {
 	}, []);
 
 
-	async function onDuplicateClick(e) {
-		e.preventDefault();
-		e.stopPropagation();
+	async function onDuplicateClick() {
 		if (loading) return;
 
 		if (!postId) return alert(__('Error GE-001: Could not get post ID', 'sup-post-duplicate'));
@@ -27,7 +25,6 @@ export const DuplicateDashboardButton = () => {
 		const response = await apiFetch({
 			path: 'sup-posts-duplicate/v1/duplicate',
 			method: 'POST',
-			// Accept redirect
 			// Don't parse the response as JSON
 			parse: false,
 			// Pass the post ID to the endpoint
@@ -38,19 +35,28 @@ export const DuplicateDashboardButton = () => {
 
 		if (response.status === 200) {
 			const location = response.headers.get('X-Location');
-			console.log(response.headers)
 			location && window.open(location, '_blank');
 		}
 		setLoading(false);
 	}
 
+	const buttonStyle = {
+		opacity: loading ? .5 : 1,
+		pointerEvents: loading ? 'none' : 'all',
+		display: 'inline-flex',
+		alignItems: 'center',
+		gap: '5px'
+	}
+
 	return (
-		<PluginMoreMenuItem icon={copy} onClick={onDuplicateClick}>
-			<span style={{opacity: loading ? .5 : 1}}>
+		<PluginPostStatusInfo>
+			<button style={buttonStyle}
+					onClick={onDuplicateClick}
+					className='components-button is-link'>
 				{__('Duplicate Post', 'sup-post-duplicate')}
-			</span>
-			{loading && <Spinner/>}
-		</PluginMoreMenuItem>
+				{loading && <Spinner/>}
+			</button>
+		</PluginPostStatusInfo>
 	);
 
 }
