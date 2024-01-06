@@ -53,6 +53,19 @@ Yes, you can duplicate any post type that is registered with WordPress.
 
 == Changelog ==
 
+= 1.0.0 =
+Release date: 2024-01-06
+
+Release 1.0, nothing much changed, but we feel like it's time to release a stable version.
+
+#### Localization
+
+* Add Hebrew.
+* Add English.
+
+#### Bug Fixes
+* Minor bug fixes.
+
 = 0.2.0 =
 * Add Gutenberg support.
 

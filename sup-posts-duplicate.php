@@ -7,7 +7,7 @@
  * Author URI:      	https://scaledup.co.il
  * Text Domain:     	sup-posts-duplicate
  * Domain Path:     	/languages
- * Version:         	0.2.0
+ * Version:         	1.0.0
  * Requires at least: 	5.0
  * Requires PHP: 		7.4
  * Tested up to: 		6.4.2
