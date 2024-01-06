@@ -7,8 +7,19 @@ use SUPPostsDuplicate\helpers\AdminNotice;
 use SUPPostsDuplicate\helpers\Config;
 use SUPPostsDuplicate\helpers\Loader;
 
+/**
+ * Abstract class for controllers,
+ * A controller is a class that will be used to group entities and register them.
+ * A controller is capable of registering hooks and entities.
+ *
+ * @since 0.1.0
+ * @package SUPPostsDuplicate\abstracts
+ */
 abstract class AbstractController
 {
+	/**
+	 * @var Loader $loader The loader that will be used to register the hooks.
+	 */
 	protected Loader $loader;
 
 	public function __construct(Loader $loader)
@@ -16,20 +27,25 @@ abstract class AbstractController
 		$this->loader = $loader;
 	}
 
+	/**
+	 * Initializes the controller, registering all the entities and running the loader.
+	 * @return void
+	 */
 	public final function init()
 	{
 		$this->register_hooks($this->loader);
 		$entities = $this->register_entities();
 		foreach ($entities as $entity) {
-			if ($entity instanceof AbstractEntity) {
-				$ent = new $entity();
-				$ent->register_hooks($this->loader);
+			$instance = new $entity($this->loader);
+			if ($instance instanceof AbstractEntity) {
+				$instance->init();
 			} else {
 				$support_url = esc_url_raw(Config::get('PluginURI'));
 				$name = esc_html(Config::get('Name'));
 				AdminNotice::error(
-					sprintf('%s PC-003 Error, Please contact the plugin developer at %s',
+					sprintf('%s PC-004 Error (%s), Please contact the plugin developer at %s',
 						"<b>$name:</b>",
+						get_class($instance),
 						"<a href='$support_url' target='_blank'>$support_url</a>"
 					)
 				);

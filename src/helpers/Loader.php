@@ -3,14 +3,40 @@ declare(strict_types=1);
 
 namespace SUPPostsDuplicate\helpers;
 
+use Exception;
+
 /**
  * The Loader class is responsible for registering all actions and filters with WordPress.
+ * This class is handled by the base plugin class, do not instantiate it.
  *
  * @since 0.0.1
  */
 class Loader
 {
+	private static Loader $instance;
+
+	/**
+	 * @throws Exception If the Loader is already instantiated.
+	 */
+	public function __construct()
+	{
+		if (isset(self::$instance)) {
+			throw new Exception('Loader already instantiated.');
+		}
+
+		self::$instance = $this;
+	}
+
+	/**
+	 * The array of actions to register with WordPress.
+	 * @var array $actions
+	 */
 	private array $actions = [];
+
+	/**
+	 * The array of filters to register with WordPress.
+	 * @var array $filters
+	 */
 	private array $filters = [];
 
 	/**

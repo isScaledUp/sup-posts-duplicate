@@ -3,16 +3,14 @@
 namespace SUPPostsDuplicate;
 
 use SUPPostsDuplicate\abstracts\AbstractBasePlugin;
-use SUPPostsDuplicate\admin\DuplicatePost;
-use SUPPostsDuplicate\admin\OptionPage;
+use SUPPostsDuplicate\admin\Controller as AdminController;
 
 class Plugin extends AbstractBasePlugin
 {
 	public function register_components(): array
 	{
 		return [
-			OptionPage::class,
-			DuplicatePost::class
+			AdminController::class,
 		];
 	}
 

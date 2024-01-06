@@ -5,6 +5,13 @@ namespace SUPPostsDuplicate\admin;
 
 use SUPPostsDuplicate\abstracts\AbstractEntity;
 
+/**
+ * Class OptionPage is responsible for the plugin's option page.
+ *
+ * @since 0.1.0
+ * @uses \SUPPostsDuplicate\abstracts\AbstractEntity
+ * @package SUPPostsDuplicate\admin
+ */
 class OptionPage extends AbstractEntity
 {
 	function register_hooks($loader): void

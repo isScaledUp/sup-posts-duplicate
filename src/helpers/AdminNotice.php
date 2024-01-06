@@ -1,17 +1,37 @@
 <?php
+declare(strict_types=1);
 
 namespace SUPPostsDuplicate\helpers;
 
+use Exception;
+
+/**
+ * Helper class to display admin notices.
+ *
+ * @package SUPPostsDuplicate\helpers
+ * @since 0.1.0
+ */
 class AdminNotice
 {
+	/**
+	 * The instance of the AdminNotice class.
+	 * @var AdminNotice $instance
+	 */
 	private static AdminNotice $instance;
 
+	/**
+	 * Array of notices to be displayed.
+	 * @var array $notices
+	 */
 	private array $notices = [];
 
+	/**
+	 * @throws Exception If the Loader is already instantiated.
+	 */
 	public function __construct(Loader $loader)
 	{
 		if (isset(self::$instance)) {
-			throw new \Exception('AdminNotice has already been instantiated.');
+			throw new Exception('AdminNotice has already been instantiated.');
 		}
 		$loader->add_action('admin_notices', $this, 'admin_notices');
 

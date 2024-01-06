@@ -5,6 +5,12 @@ namespace SUPPostsDuplicate\abstracts;
 
 use SUPPostsDuplicate\helpers\Loader;
 
+/**
+ * Abstract class that will be used as an entity to register hooks.
+ *
+ * @since 0.1.0
+ * @package SUPPostsDuplicate\abstracts
+ */
 abstract class AbstractEntity
 {
 	protected Loader $loader;

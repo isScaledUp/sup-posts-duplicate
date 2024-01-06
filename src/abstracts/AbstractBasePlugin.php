@@ -7,8 +7,17 @@ use SUPPostsDuplicate\helpers\Config;
 use SUPPostsDuplicate\helpers\Loader;
 use SUPPostsDuplicate\helpers\AdminNotice;
 
+/**
+ * Abstract class that will be used as the base plugin.
+ *
+ * @since 0.1.0
+ * @package SUPPostsDuplicate\abstracts
+ */
 abstract class AbstractBasePlugin
 {
+	/**
+	 * @var Loader $loader The loader that will be used to register the hooks.
+	 */
 	private Loader $loader;
 
 
@@ -22,12 +31,15 @@ abstract class AbstractBasePlugin
 			wp_die($e->getMessage());
 		}
 
-
-		// Expose the notice helper to the rest of the plugin files.
-
 		$this->init();
 	}
 
+	/**
+	 * Initializes the plugin, registering all the components and running the loader.
+	 *
+	 * @since 0.1.0
+	 * @return void
+	 */
 	private final function init()
 	{
 		$components = $this->register_components();

@@ -15,14 +15,19 @@ class DuplicatePost extends AbstractEntity
 {
 	function register_hooks($loader): void
 	{
-		$loader->add_filter('post_row_actions', $this, 'add_duplicate', 10, 2);
-		$loader->add_filter('page_row_actions', $this, 'add_duplicate', 10, 2);
+		/**
+		 * Areas where the duplicate link will be added.
+		 */
+		$loader->add_filter('post_row_actions', $this, 'add_duplicate', 10, 2); // Post list table
+		$loader->add_filter('page_row_actions', $this, 'add_duplicate', 10, 2); // Page list table
+		$loader->add_action('post_submitbox_misc_actions', $this, 'add_duplicate_post_button'); // Post edit page
+		$loader->add_action('admin_bar_menu', $this, 'add_duplicate_post_button_to_admin_bar', 100); // Admin bar
+
+		/**
+		 * The duplicate actions callbacks.
+		 */
 		$loader->add_action('admin_action_duplicate_post_as_draft', $this, 'duplicate_post_as_draft');
 		$loader->add_action('admin_action_duplicate_post_as_draft_and_edit', $this, 'duplicate_post_as_draft_and_edit');
-
-		// add duplicate button to inner post near edit button
-		$loader->add_action('post_submitbox_misc_actions', $this, 'add_duplicate_post_button');
-		$loader->add_action('admin_bar_menu', $this, 'add_duplicate_post_button_to_admin_bar', 100);
 
 	}
 
@@ -72,7 +77,14 @@ class DuplicatePost extends AbstractEntity
 		}
 	}
 
-	public function add_duplicate($actions, $post)
+	/**
+	 * Add duplicate link to post/page row actions.
+	 *
+	 * @param $actions array
+	 * @param $post \WP_Post
+	 * @return array
+	 */
+	public function add_duplicate(array $actions, \WP_Post $post): array
 	{
 		if (current_user_can('edit_posts')) {
 			$actions['duplicate'] = '<a href="' . wp_nonce_url('admin.php?action=duplicate_post_as_draft&post=' . $post->ID, basename(__FILE__), 'duplicate_nonce') . '" title="' . esc_html__('Duplicate this item', 'sup-posts-duplicate') . '" rel="permalink">' . esc_html__('Duplicate', 'sup-posts-duplicate') . '</a>';
@@ -81,21 +93,28 @@ class DuplicatePost extends AbstractEntity
 		return $actions;
 	}
 
+	/**
+	 * Verify the nonce.
+	 * @return bool Whether the nonce is valid.
+	 */
 	private function verify_nonce(): bool
 	{
-		if (!isset($_GET['duplicate_nonce']) || !wp_verify_nonce($_GET['duplicate_nonce'], basename(__FILE__))) {
-			return false;
-		}
-		return true;
+		return !isset($_GET['duplicate_nonce']) || !wp_verify_nonce($_GET['duplicate_nonce'], basename(__FILE__));
 	}
 
+	/**
+	 * Duplicate a post.
+	 *
+	 * @param int $post_id The ID of the post to duplicate.
+	 * @return int The ID of the new post.
+	 */
 	private function duplicate_post(int $post_id): int
 	{
 		$post = get_post($post_id);
 
 		$new_post_author = wp_get_current_user();
 		$new_post_author = $new_post_author->ID;
-		if (!isset($post) || $post === null) {
+		if (!isset($post)) {
 			return 0;
 		}
 
@@ -134,6 +153,11 @@ class DuplicatePost extends AbstractEntity
 		return $new_post_id;
 	}
 
+	/**
+	 * Duplicate a post action callback.
+	 *
+	 * @return void
+	 */
 	public function duplicate_post_as_draft()
 	{
 		if (!$this->verify_nonce()) {
@@ -153,6 +177,11 @@ class DuplicatePost extends AbstractEntity
 		exit;
 	}
 
+	/**
+	 * Duplicate a post and edit action callback.
+	 *
+	 * @return void
+	 */
 	public function duplicate_post_as_draft_and_edit()
 	{
 		if (!$this->verify_nonce()) {
