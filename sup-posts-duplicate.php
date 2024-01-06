@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:     	SUP: Posts Duplicate
- * Plugin URI:      	https://scaledup.co.il
+ * Plugin URI:      	https://github.com/isScaledUp/sup-posts-duplicate
  * Description:     	Allows any users that have the capability to edit posts to duplicate posts of any type, including custom post types.
  * Author:          	ScaledUp
  * Author URI:      	https://scaledup.co.il
